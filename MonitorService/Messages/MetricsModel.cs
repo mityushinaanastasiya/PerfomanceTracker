@@ -6,32 +6,23 @@ namespace Messages
 {
     public class MetricsModel
     {
-        Dictionary<string, string> metrics;
-        string machineName;
-        DateTime timeStamp; 
-        public MetricsModel (Dictionary<string, string> metrics, string machineName, DateTime timeStamp)
+        public Dictionary<string, string> Data { get; set; }
+        public string MachineName { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public MetricsModel ()
         {
-            this.metrics = metrics;
-            this.machineName = machineName;
-            this.timeStamp = timeStamp;
-        }
-        
-        //На данном этапе используется для вывода в консоль 
-        public string returnValue (string parametr)
-        {
-            switch (parametr)
-            {
-                case "cpu":
-                    return this.metrics["cpu"];
-                case "ram":
-                    return this.metrics["ram"];
-                case "timeStamp":
-                    return this.timeStamp.ToString();
-                case "disk":
-                    return this.metrics["disk"];
 
-            }
-            return null;
+        }
+        public MetricsModel (Dictionary<string, string> data, string machineName, DateTime timeStamp)
+        {
+            this.Data = data;
+            this.MachineName = machineName;
+            this.TimeStamp = timeStamp;
+        }
+
+        public override string ToString()
+        {
+            return "machine " + this.MachineName + " cpu " + this.Data["cpu"] + "% " + "disk " + this.Data["disk"] + "% ram " + this.Data["ram"] + "% TimeStamp " + this.TimeStamp;
         }
     }
 }

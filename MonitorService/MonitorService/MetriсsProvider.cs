@@ -7,25 +7,22 @@ using System.Threading.Tasks;
 
 namespace MonitorService
 {
-    class MetriksProvider
+    class MetriсsProvider
     {
         PerformanceCounter cpuCounter;
         PerformanceCounter ramCounter;
         PerformanceCounter diskCounter;
-
-        public MetriksProvider()
+        public MetriсsProvider()
         {
             cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             ramCounter = new PerformanceCounter("Memory", "% Committed Bytes In Use");
             diskCounter = new PerformanceCounter("PhysicalDisk", "% Disk Time", "_Total");
         }
-
-        public Dictionary<string, string> getMetrics() => new Dictionary<string, string>
+        public Dictionary<string, string> GetMetrics() => new Dictionary<string, string>
                 {
                     {"cpu", cpuCounter.NextValue().ToString()},
                     {"ram", ramCounter.NextValue().ToString()},
                     {"disk", diskCounter.NextValue().ToString()}
                 };
-
     }
 }

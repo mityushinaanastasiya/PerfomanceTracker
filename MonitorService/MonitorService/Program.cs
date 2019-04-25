@@ -10,7 +10,7 @@ namespace MonitorService
     {
         static void Main(string[] args)
         {
-        new MonitorServiceProcess().sentMetrics();
+        new MonitorServiceProcess().SentMetrics();
         }
     }
 }
