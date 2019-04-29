@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogCollector.cs" />
     <Compile Include="MetricServiceConfiguration.cs" />
     <Compile Include="MetriсsProvider.cs" />
     <Compile Include="MonitorServiceProcess.cs" />

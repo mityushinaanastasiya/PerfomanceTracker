@@ -11,11 +11,14 @@ namespace MonitorService
 {
     class MonitorServiceProcess
     {
-        MetriсsProvider MetriksProvider; 
-
+        MetriсsProvider MetriksProvider;
+        LogCollector logCollector;
+        MetricServiceConfiguration metricServiceConfiguration;
         public MonitorServiceProcess()
         {
             MetriksProvider = new MetriсsProvider();
+            metricServiceConfiguration = new MetricServiceConfiguration();
+            logCollector = new LogCollector(metricServiceConfiguration.LogSources.ElementAt(0).Key, metricServiceConfiguration.LogSources.ElementAt(0).Value);
         }
 
         public void SentMetrics()
@@ -24,12 +27,12 @@ namespace MonitorService
             while (i < 10)
             {
                 //формируем модель
-                MetricServiceConfiguration metricServiceConfiguration = new MetricServiceConfiguration();
+                 
                 MetricsModel metricsModel = new MetricsModel(MetriksProvider.GetMetrics(), metricServiceConfiguration.MachineName, DateTime.Now);
 
                 //вывод на экран 
                 Console.WriteLine(metricsModel);
-
+                logCollector.GetLastRows();
                 //sentModel(metricsModel));
             
                 //Задержка в секунду
