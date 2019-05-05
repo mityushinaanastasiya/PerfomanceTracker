@@ -18,7 +18,18 @@ namespace MonitorService
         {
             MetriksProvider = new MetriсsProvider();
             metricServiceConfiguration = new MetricServiceConfiguration();
-            logCollector = new LogCollector(metricServiceConfiguration.LogSources.ElementAt(0).Key, metricServiceConfiguration.LogSources.ElementAt(0).Value);
+            StartMonitoringOfLogs();
+        }
+
+        /// <summary>
+        /// Запускает процесс мониторинга логов для указанных в конфигурфции экстеншенов в отдельных потоках
+        /// </summary>
+        void StartMonitoringOfLogs()
+        {
+            foreach (KeyValuePair <string, string> sourse in metricServiceConfiguration.LogSources)
+            {
+                Task.Run(() => new LogCollector(sourse.Key, sourse.Value, metricServiceConfiguration.LogsInterval).GetLastRowOnSceduller());
+            }
         }
 
         public void SentMetrics()
@@ -26,16 +37,8 @@ namespace MonitorService
             int i = 0;//потом будет while (true)
             while (i < 10)
             {
-                //формируем модель
-                 
-                MetricsModel metricsModel = new MetricsModel(MetriksProvider.GetMetrics(), metricServiceConfiguration.MachineName, DateTime.Now);
-
-                //вывод на экран 
+                MetricsModel metricsModel = new MetricsModel(MetriksProvider.GetMetrics(), metricServiceConfiguration.MachineName, DateTime.Now); 
                 Console.WriteLine(metricsModel);
-                logCollector.GetLastRows();
-                //sentModel(metricsModel));
-            
-                //Задержка в секунду
                 Thread.Sleep(metricServiceConfiguration.MetricInterval); 
                 i++;
             }

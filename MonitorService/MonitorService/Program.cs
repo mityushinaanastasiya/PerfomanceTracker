@@ -11,6 +11,7 @@ namespace MonitorService
         static void Main(string[] args)
         {
         new MonitorServiceProcess().SentMetrics();
+            Console.ReadKey();
         }
     }
 }
