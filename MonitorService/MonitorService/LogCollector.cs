@@ -82,7 +82,7 @@ namespace MonitorService
                         else
                         {
                             if (row != "") rowLog += '\n' + row;
-                        }
+                        } 
                     }
                 }
                 catch { }

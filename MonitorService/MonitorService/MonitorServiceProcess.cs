@@ -12,7 +12,6 @@ namespace MonitorService
     class MonitorServiceProcess
     {
         MetriсsProvider MetriksProvider;
-        LogCollector logCollector;
         MetricServiceConfiguration metricServiceConfiguration;
         public MonitorServiceProcess()
         {
