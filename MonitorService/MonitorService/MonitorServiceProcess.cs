@@ -18,6 +18,7 @@ namespace MonitorService
             MetriksProvider = new MetriсsProvider();
             metricServiceConfiguration = new MetricServiceConfiguration();
             StartMonitoringOfLogs();
+            startMonitoringOfJobs();
         }
 
         /// <summary>
@@ -31,8 +32,17 @@ namespace MonitorService
             }
         }
 
+        /// <summary>
+        /// Запускает процесс мониторинга job в соответствии с конфигурацией
+        /// </summary>
+        void startMonitoringOfJobs()
+        {
+            Task.Run(() => new JobsCollector(metricServiceConfiguration.WallsConnectionString, metricServiceConfiguration.WallsProviderName, metricServiceConfiguration.JobsInterval).GetLastJobsOnSceduller());
+        }
+
         public void SentMetrics()
         {
+
             int i = 0;//потом будет while (true)
             while (i < 10)
             {
