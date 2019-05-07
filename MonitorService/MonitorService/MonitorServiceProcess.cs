@@ -11,47 +11,51 @@ namespace MonitorService
 {
     class MonitorServiceProcess
     {
-        MetriсsProvider MetriksProvider;
+        
         MetricServiceConfiguration metricServiceConfiguration;
+        private List<Task> tasks;
         public MonitorServiceProcess()
-        {
-            MetriksProvider = new MetriсsProvider();
+        {  
             metricServiceConfiguration = new MetricServiceConfiguration();
-            StartMonitoringOfLogs();
-            startMonitoringOfJobs();
+            tasks = new List<Task>();
         }
 
-        /// <summary>
-        /// Запускает процесс мониторинга логов для указанных в конфигурфции экстеншенов в отдельных потоках
-        /// </summary>
-        void StartMonitoringOfLogs()
+        public void MonitorProcess()
         {
-            foreach (KeyValuePair <string, string> sourse in metricServiceConfiguration.LogSources)
-            {
-                Task.Run(() => new LogCollector(sourse.Key, sourse.Value, metricServiceConfiguration.LogsInterval).GetLastRowOnSceduller());
-            }
+            tasks.Add(Task.Run(() => this.SentMetrics()));
+            tasks.Add(Task.Run(() => this.GetLastJobsOnSceduller()));
+            tasks.Add(Task.Run(() => this.GetLastLogOnSceduller()));
+            Task.WaitAll(tasks.ToArray());
         }
-
-        /// <summary>
-        /// Запускает процесс мониторинга job в соответствии с конфигурацией
-        /// </summary>
-        void startMonitoringOfJobs()
-        {
-            Task.Run(() => new JobsCollector(metricServiceConfiguration.WallsConnectionString, metricServiceConfiguration.WallsProviderName, metricServiceConfiguration.JobsInterval).GetLastJobsOnSceduller());
-        }
-
         public void SentMetrics()
         {
-
-            int i = 0;//потом будет while (true)
-            while (i < 10)
+            MetriсsProvider MetriksProvider = new MetriсsProvider();
+            while (true)
             {
                 MetricsModel metricsModel = new MetricsModel(MetriksProvider.GetMetrics(), metricServiceConfiguration.MachineName, DateTime.Now); 
                 Console.WriteLine(metricsModel);
                 Thread.Sleep(metricServiceConfiguration.MetricInterval); 
-                i++;
             }
-            Console.Read();
+        }
+
+        public void GetLastJobsOnSceduller()
+        {
+            JobsCollector jobsCollector = new JobsCollector(metricServiceConfiguration.WallsConnectionString, metricServiceConfiguration.WallsProviderName);
+            while (true)
+            {
+                jobsCollector.GetLastJobs();
+                Thread.Sleep(metricServiceConfiguration.JobsInterval);
+            }
+        }
+
+        public void GetLastLogOnSceduller()
+        {
+            Parallel.ForEach(metricServiceConfiguration.LogSources, (sourse) =>
+            {
+                LogCollector logCollector = new LogCollector(sourse.Key, sourse.Value);
+                logCollector.GetLastRows();
+                Thread.Sleep(metricServiceConfiguration.LogsInterval);
+            });
         }
     }
 }

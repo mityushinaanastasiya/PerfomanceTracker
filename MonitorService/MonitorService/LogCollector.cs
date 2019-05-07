@@ -14,15 +14,11 @@ namespace MonitorService
         int line;
         string path;
         DateTime creationDate;
-        int logsInterval;
         string nameOfExtension;
-
-
-        public LogCollector( string nameOfExtension, string path, int logsInterval)
+        public LogCollector( string nameOfExtension, string path)
         {
             this.nameOfExtension = nameOfExtension;
             this.path = path;
-            this.logsInterval = logsInterval;
             line = 0;
             creationDate = File.GetCreationTime(path);
         }
@@ -31,9 +27,9 @@ namespace MonitorService
         /// Возвращает полный список логов с момента последнего чтения
         /// </summary>
         /// <returns></returns>
-        List<KeyValuePair<DateTime, string>> GetLastRows()
+        public List<KeyValuePair<DateTime, string>> GetLastRows()
         {
-            List<KeyValuePair<DateTime, string>> lastRows = new List<KeyValuePair<DateTime, string>>();
+            List<KeyValuePair<DateTime, string>> lastRows;
             lastRows = CheckingTheCreationOfANewLog();
             if (lastRows != null) line = 0;
             else lastRows = new List<KeyValuePair<DateTime, string>>();
@@ -60,53 +56,25 @@ namespace MonitorService
         /// <returns></returns>
         List<KeyValuePair<DateTime, string>> returnRows (string currentPath)
         {
+            Regex reg = new  Regex(@"\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2},\d{3}");
+            DateTime rowDate = DateTime.Now;
+            string rowLog ="";
             List<KeyValuePair<DateTime, string>> lastRows = new List<KeyValuePair<DateTime, string>>();
-            try
-            {
-                string row = File.ReadLines(currentPath).Skip(line++).First();
-                DateTime rowDate = Convert.ToDateTime(Regex.Match(row, @"\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2},\d{3}").ToString().Replace(',', '.'));
-                string rowLog = Regex.Match(row, @"\|(\s\S*)*").ToString();
-                try
+                var rows = File.ReadLines(currentPath).Skip(line);
+                foreach (var row in rows)
                 {
-                    while (true)
+                    if (reg.IsMatch(row))
                     {
-                        row = File.ReadLines(currentPath).Skip(line).First();
-                        line++;
-                        if (Regex.IsMatch(row, @"\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2},\d{3}"))
-                        {
-                            Console.WriteLine(rowLog);
-                            lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
-                            rowDate = Convert.ToDateTime(Regex.Match(row, @"\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2},\d{3}").ToString().Replace(',', '.'));
-                            rowLog = Regex.Match(row, @"\|(\s\S*)*").ToString();
-                        }
-                        else
-                        {
-                            if (row != "") rowLog += '\n' + row;
-                        } 
+                        lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
+                        rowDate = Convert.ToDateTime(reg.Match(row).ToString().Replace(',', '.'));
+                        rowLog = row;
                     }
+                    else if (row != "") rowLog += '\n' + row;
                 }
-                catch { }
-                line++;
-                Console.WriteLine(rowLog);
+            if (lastRows.Any()) lastRows.Remove(lastRows[0]);
                 lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
-            }
-            catch { }
-            return lastRows;
-        }
-
-        /// <summary>
-        /// Считывает логи через заданный logInterval
-        /// </summary>
-        /// в дальнейшем будет доработан, чтобы отправлять логи на сервер
-        public void GetLastRowOnSceduller ()
-        {
-            int i = 0;
-            while (i<5)
-            {
-                GetLastRows();
-                Thread.Sleep(logsInterval);
-                i++;
-            }
+                line += rows.Count()+1;
+                return lastRows;
         }
     }
 }

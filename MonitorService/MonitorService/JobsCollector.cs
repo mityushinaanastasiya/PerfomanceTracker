@@ -10,14 +10,12 @@ namespace MonitorService
 {
     class JobsCollector
     {
-        private int lastJobId;
+        private DateTime currentDate;
         private Database db;
-        private int jobsInterval;
-        public JobsCollector(string wallsConnectionString, string wallsProviderName, int jobsInterval)
+        public JobsCollector(string wallsConnectionString, string wallsProviderName)
         {
             db = new Database(wallsConnectionString, wallsProviderName);
-            lastJobId = db.Map<Job>(SQL.SELECT("*").FROM("ExtensionServiceJobs")).First().ExtensionServiceJobsId - 1;
-            this.jobsInterval = jobsInterval;
+            currentDate = DateTime.Now;
         }
 
         public List<Job> GetLastJobs()
@@ -26,19 +24,10 @@ namespace MonitorService
                 .SELECT(
                     "ExtensionServiceJobsId, ExtensionServiceName, ExtensionType, LibraryName, JobType, JobState, FinalStatus, Retries, QueueTime, StateLastChangedTime, StartTime, EndTime, Messages, OperationId")
                 .FROM("ExtensionServiceJobs")
-                .WHERE("ExtensionServiceJobsId >" + lastJobId);
+                .WHERE($"(EndTime > '{currentDate}' or StartTime > '{currentDate}') and JobState = 'FINISHED'");
             List<Job> lastJobs = db.Map<Job>(query).ToList();
-            lastJobId = lastJobs.Last().ExtensionServiceJobsId;
+            if (lastJobs.Any()) currentDate = lastJobs.Max(j => j.QueueTime);
             return lastJobs;
-        }
-
-        public void GetLastJobsOnSceduller()
-        {
-            while (true)
-            {
-                GetLastJobs();
-                Thread.Sleep(jobsInterval);
-            }
         }
 
     }
