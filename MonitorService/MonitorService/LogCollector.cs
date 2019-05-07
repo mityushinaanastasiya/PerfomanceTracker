@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
@@ -60,21 +61,43 @@ namespace MonitorService
             DateTime rowDate = DateTime.Now;
             string rowLog ="";
             List<KeyValuePair<DateTime, string>> lastRows = new List<KeyValuePair<DateTime, string>>();
-                var rows = File.ReadLines(currentPath).Skip(line);
-                foreach (var row in rows)
+            var rows = this.Read(line);
+            foreach (var row in rows)
                 {
                     if (reg.IsMatch(row))
                     {
-                        lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
-                        rowDate = Convert.ToDateTime(reg.Match(row).ToString().Replace(',', '.'));
+                    lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
+                        Console.WriteLine(rowLog);
+                    rowDate = Convert.ToDateTime(reg.Match(row).ToString().Replace(',', '.'));
                         rowLog = row;
                     }
                     else if (row != "") rowLog += '\n' + row;
                 }
             if (lastRows.Any()) lastRows.Remove(lastRows[0]);
-                lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
-                line += rows.Count()+1;
-                return lastRows;
+            Console.WriteLine(rowLog);
+            lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
+            line += rows.Count();
+            return lastRows;
+        }
+
+        private IEnumerable<string> Read(int lineNumber)
+        {
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var sr = new StreamReader(fs, Encoding.Default))
+            {
+                int index = 0;
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (index < lineNumber)
+                    {
+                        index++;
+                        continue;
+                    }
+
+                    yield return line;
+                }
+            }
         }
     }
 }

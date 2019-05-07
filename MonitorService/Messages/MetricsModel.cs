@@ -22,7 +22,8 @@ namespace Messages
 
         public override string ToString()
         {
-            return "machine " + this.MachineName + " cpu " + this.Data["cpu"] + "% " + "disk " + this.Data["disk"] + "% ram " + this.Data["ram"] + "% TimeStamp " + this.TimeStamp;
+            return $"machine {this.MachineName} CPU {this.Data["cpu"]}% DISK {this.Data["disk"]}% RAM {this.Data["ram"]} % TIMESTAMP {this.TimeStamp}";
+
         }
     }
 }

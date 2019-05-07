@@ -11,6 +11,7 @@ namespace MonitorService
     class MetricServiceConfiguration
     {
         public string MachineName {get;set;}
+        public string MonitorServiseRole { get; set; }
         public int MetricInterval { get; set; }
         public int LogsInterval { get; set; }
         public int JobsInterval { get; set;}
@@ -18,18 +19,17 @@ namespace MonitorService
         public string WallsProviderName { get; set; }
         public Dictionary<string, string> LogSources { get; set; }
 
-        public Dictionary<string, string> WallsDbConnection { get; set; }
 
         public MetricServiceConfiguration ()
         {
             MachineName = this.GetString("MachineName");
+            MonitorServiseRole = this.GetString("MachineRole");
             MetricInterval = this.GetInt("MetricInterval")*1000;
             LogsInterval = this.GetInt("LogsInterval") * 1000;
             JobsInterval = this.GetInt("JobsInterval") * 1000;
             WallsConnectionString = this.GetWallsDbConnectionString("WallsConnectionString");
             WallsProviderName = this.GetWallsDbConnectionString("WallsProviderName");
             LogSources = this.GetDictionary();
-            WallsDbConnection = this.GetWallsDbConnectionString();
         }
         string GetString(string key) => ConfigurationManager.AppSettings.Get(key);
         int GetInt(string key) => Convert.ToInt32(GetString(key));
@@ -47,17 +47,6 @@ namespace MonitorService
         {
             var section = (NameValueCollection)ConfigurationManager.GetSection("jobsource");
             return section[key];
-        }
-
-        Dictionary<string, string> GetWallsDbConnectionString()
-        {
-            Dictionary<string, string> wallsConnection = new Dictionary<string, string>();
-            var section = (NameValueCollection)ConfigurationManager.GetSection("jobsource");
-            foreach (string key in section)
-            {
-                wallsConnection.Add(key, section[key]);
-            }
-            return wallsConnection;
         }
     }
 }

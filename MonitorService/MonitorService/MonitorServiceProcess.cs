@@ -6,25 +6,29 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Messages;
+using System.IO;
 
 namespace MonitorService
 {
     class MonitorServiceProcess
     {
-        
+        enum MonitorServiceRole { Primary, Secondary}
+
         MetricServiceConfiguration metricServiceConfiguration;
         private List<Task> tasks;
+        private MonitorServiceRole monitorServiceRole;
         public MonitorServiceProcess()
         {  
             metricServiceConfiguration = new MetricServiceConfiguration();
+            MonitorServiceRole.TryParse(metricServiceConfiguration.MonitorServiseRole, true, out monitorServiceRole);
             tasks = new List<Task>();
         }
 
         public void MonitorProcess()
         {
             tasks.Add(Task.Run(() => this.SentMetrics()));
-            tasks.Add(Task.Run(() => this.GetLastJobsOnSceduller()));
             tasks.Add(Task.Run(() => this.GetLastLogOnSceduller()));
+            if (monitorServiceRole == MonitorServiceRole.Primary) tasks.Add(Task.Run(() => this.GetLastJobsOnSceduller()));
             Task.WaitAll(tasks.ToArray());
         }
         public void SentMetrics()
@@ -32,7 +36,7 @@ namespace MonitorService
             MetriсsProvider MetriksProvider = new MetriсsProvider();
             while (true)
             {
-                MetricsModel metricsModel = new MetricsModel(MetriksProvider.GetMetrics(), metricServiceConfiguration.MachineName, DateTime.Now); 
+                MetricsModel metricsModel = new MetricsModel(MetriksProvider.GetMetrics(), metricServiceConfiguration.MachineName, DateTime.Now);
                 Console.WriteLine(metricsModel);
                 Thread.Sleep(metricServiceConfiguration.MetricInterval); 
             }
@@ -53,8 +57,11 @@ namespace MonitorService
             Parallel.ForEach(metricServiceConfiguration.LogSources, (sourse) =>
             {
                 LogCollector logCollector = new LogCollector(sourse.Key, sourse.Value);
-                logCollector.GetLastRows();
-                Thread.Sleep(metricServiceConfiguration.LogsInterval);
+                while (true)
+                {
+                    logCollector.GetLastRows();
+                    Thread.Sleep(metricServiceConfiguration.LogsInterval);
+                }
             });
         }
     }

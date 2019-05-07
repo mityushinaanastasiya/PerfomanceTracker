@@ -22,5 +22,10 @@ namespace Models
         public DateTime EndTime { get; set; }
         public string Messages { get; set; }
         public Guid OperationId { get; set; }
+        public override string ToString()
+        {
+            return $"{ExtensionServiceJobsId} {JobType}";
+
+        }
     }
 }

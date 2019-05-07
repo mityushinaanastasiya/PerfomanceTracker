@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,9 +25,13 @@ namespace MonitorService
                 .SELECT(
                     "ExtensionServiceJobsId, ExtensionServiceName, ExtensionType, LibraryName, JobType, JobState, FinalStatus, Retries, QueueTime, StateLastChangedTime, StartTime, EndTime, Messages, OperationId")
                 .FROM("ExtensionServiceJobs")
-                .WHERE($"(EndTime > '{currentDate}' or StartTime > '{currentDate}') and JobState = 'FINISHED'");
+                .WHERE($"QueueTime > '{currentDate.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}' and JobState = 'FINISHED'");
             List<Job> lastJobs = db.Map<Job>(query).ToList();
             if (lastJobs.Any()) currentDate = lastJobs.Max(j => j.QueueTime);
+            foreach (var jb in lastJobs)
+            {
+                Console.WriteLine(jb);
+            }
             return lastJobs;
         }
 
