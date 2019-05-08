@@ -26,9 +26,9 @@ namespace MonitorService
 
         public void MonitorProcess()
         {
-            tasks.Add(Task.Run(() => this.SentMetrics()));
-            tasks.Add(Task.Run(() => this.GetLastLogOnSceduller()));
-            if (monitorServiceRole == MonitorServiceRole.Primary) tasks.Add(Task.Run(() => this.GetLastJobsOnSceduller()));
+            //tasks.Add(Task.Run(() => this.SentMetrics()));
+            //tasks.Add(Task.Run(() => this.GetLastLogOnSceduller()));
+            //if (monitorServiceRole == MonitorServiceRole.Primary) tasks.Add(Task.Run(() => this.GetLastJobsOnSceduller()));
             Task.WaitAll(tasks.ToArray());
         }
         public void SentMetrics()
