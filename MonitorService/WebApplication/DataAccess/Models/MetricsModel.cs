@@ -7,6 +7,7 @@ namespace WebApplication.Models
 {
     public class MetricsModel
     {
+        public int Id { get; set; }
         public string MachineName { get; set; }
         public DateTime TimeStamp { get; set; }
         public string Processor { get; set; }

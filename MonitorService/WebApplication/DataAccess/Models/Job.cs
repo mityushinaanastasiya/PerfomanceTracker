@@ -7,6 +7,7 @@ namespace WebApplication.Models
 {
     public class Job
     {
+        public int Id { get; set; }
         public int ExtensionServiceJobsId { get; set; }
         public string ExtensionServiceName { get; set; }
         public string ExtensionType { get; set; }

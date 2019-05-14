@@ -8,7 +8,7 @@ namespace WebApplication.Models
 {
     public class WallsMonitorDbContext : DbContext
     {
-        public DbSet<log> Logs { get; set; }
+        public DbSet<Log> Logs { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<MetricsModel> MetricsModels { get; set; }
         public WallsMonitorDbContext(DbContextOptions<WallsMonitorDbContext> options)

@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace WebApplication.Models
 {
-    public class log
+    public class Log
     {
+        public int Id { get; set; }
         public DateTime TimeStamp { get; set; }
         public string ThreadId { get; set; }
         public string LogMessage { get; set; }
-        public DateTime LogContent { get; set; }
+        public string LogContent { get; set; }
     }
 }
