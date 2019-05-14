@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Messages;
 using System.IO;
+using System.Web.Script.Serialization;
 
 namespace MonitorService
 {
@@ -37,7 +38,6 @@ namespace MonitorService
             while (true)
             {
                 MetricsModel metricsModel = new MetricsModel(MetriksProvider.GetMetrics(), metricServiceConfiguration.MachineName, DateTime.Now);
-                Console.WriteLine(metricsModel);
                 Thread.Sleep(metricServiceConfiguration.MetricInterval); 
             }
         }
@@ -56,10 +56,10 @@ namespace MonitorService
         {
             Parallel.ForEach(metricServiceConfiguration.LogSources, (sourse) =>
             {
-                LogCollector logCollector = new LogCollector(sourse.Key, sourse.Value);
+                LogCollector logCollector = new LogCollector(sourse.Value);
                 while (true)
                 {
-                    logCollector.GetLastRows();
+                    Log log = new Log(sourse.Key, logCollector.GetLastRows());
                     Thread.Sleep(metricServiceConfiguration.LogsInterval);
                 }
             });

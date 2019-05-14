@@ -15,10 +15,8 @@ namespace MonitorService
         int line;
         string path;
         DateTime creationDate;
-        string nameOfExtension;
-        public LogCollector( string nameOfExtension, string path)
+        public LogCollector(string path)
         {
-            this.nameOfExtension = nameOfExtension;
             this.path = path;
             line = 0;
             creationDate = File.GetCreationTime(path);

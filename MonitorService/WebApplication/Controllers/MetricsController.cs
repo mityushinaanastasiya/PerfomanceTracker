@@ -7,17 +7,18 @@ using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
-    public class LogsController : ControllerBase
+    public class MetricsController : Controller
     {
         MonitorService monitorService;
-        public LogsController(MonitorService monitorService)
+        public MetricsController (MonitorService monitorService)
         {
             this.monitorService = monitorService;
         }
+
         [HttpPost]
-        public async Task Post([FromBody] Messages.Log log)
+        public async Task Post([FromBody] Messages.MetricsModel model)
         {
-            await monitorService.AddLogs(log);
+            await monitorService.AddMetrics(model);
         }
     }
 }

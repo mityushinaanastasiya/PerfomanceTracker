@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Models
+namespace Messages
 {
     public class Job
     { 
@@ -25,7 +21,6 @@ namespace Models
         public override string ToString()
         {
             return $"{ExtensionServiceJobsId} {JobType}";
-
         }
     }
 }

@@ -11,8 +11,7 @@ namespace WebApplication.Models
         public DbSet<Log> Logs { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<MetricsModel> MetricsModels { get; set; }
-        public WallsMonitorDbContext(DbContextOptions<WallsMonitorDbContext> options)
-            : base(options)
+        public WallsMonitorDbContext(DbContextOptions<WallsMonitorDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }

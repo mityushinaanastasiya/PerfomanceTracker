@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
-    public class LogsController : ControllerBase
+    public class JobsController : Controller
     {
         MonitorService monitorService;
-        public LogsController(MonitorService monitorService)
+        public JobsController(MonitorService monitorService)
         {
             this.monitorService = monitorService;
         }
         [HttpPost]
-        public async Task Post([FromBody] Messages.Log log)
+        public async Task Post([FromBody] List<Messages.Job> jobs)
         {
-            await monitorService.AddLogs(log);
+            await monitorService.AddJobs(jobs);
         }
     }
 }

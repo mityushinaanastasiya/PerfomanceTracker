@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DbExtensions;
-using Models;
+using Messages;
 namespace MonitorService
 {
     class JobsCollector
