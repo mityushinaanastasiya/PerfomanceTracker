@@ -7,6 +7,7 @@ using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
+    [Route("api/metrics")]
     public class MetricsController : Controller
     {
         MonitorService monitorService;

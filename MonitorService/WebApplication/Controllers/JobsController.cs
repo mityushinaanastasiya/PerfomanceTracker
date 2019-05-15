@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication.Controllers
 {
+    [Route("api/jobs")]
     public class JobsController : Controller
     {
         MonitorService monitorService;
@@ -13,8 +14,9 @@ namespace WebApplication.Controllers
         {
             this.monitorService = monitorService;
         }
+
         [HttpPost]
-        public async Task Post([FromBody] List<Messages.Job> jobs)
+        public async Task Post([FromBody] List<Messages.JobModel> jobs)
         {
             await monitorService.AddJobs(jobs);
         }

@@ -19,14 +19,14 @@ namespace MonitorService
             currentDate = DateTime.Now;
         }
 
-        public List<Job> GetLastJobs()
+        public List<JobModel> GetLastJobs()
         {
             var query = SQL
                 .SELECT(
                     "ExtensionServiceJobsId, ExtensionServiceName, ExtensionType, LibraryName, JobType, JobState, FinalStatus, Retries, QueueTime, StateLastChangedTime, StartTime, EndTime, Messages, OperationId")
                 .FROM("ExtensionServiceJobs")
                 .WHERE($"QueueTime > '{currentDate.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}' and JobState = 'FINISHED'");
-            List<Job> lastJobs = db.Map<Job>(query).ToList();
+            List<JobModel> lastJobs = db.Map<JobModel>(query).ToList();
             if (lastJobs.Any()) currentDate = lastJobs.Max(j => j.QueueTime);
             foreach (var jb in lastJobs)
             {

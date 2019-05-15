@@ -7,6 +7,7 @@ using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
+    [Route("api/logs")]
     public class LogsController : ControllerBase
     {
         MonitorService monitorService;
@@ -15,7 +16,7 @@ namespace WebApplication.Controllers
             this.monitorService = monitorService;
         }
         [HttpPost]
-        public async Task Post([FromBody] Messages.Log log)
+        public async Task Post([FromBody] Messages.LogModel log)
         {
             await monitorService.AddLogs(log);
         }

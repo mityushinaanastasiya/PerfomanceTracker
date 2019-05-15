@@ -17,6 +17,7 @@ namespace MonitorService
         public int JobsInterval { get; set;}
         public string WallsConnectionString { get; set; }
         public string WallsProviderName { get; set; }
+        public string ServerURL { get; set; }
         public Dictionary<string, string> LogSources { get; set; }
 
 
@@ -30,6 +31,7 @@ namespace MonitorService
             WallsConnectionString = this.GetWallsDbConnectionString("WallsConnectionString");
             WallsProviderName = this.GetWallsDbConnectionString("WallsProviderName");
             LogSources = this.GetDictionary();
+            ServerURL = this.GetString("ServerURL");
         }
         string GetString(string key) => ConfigurationManager.AppSettings.Get(key);
         int GetInt(string key) => Convert.ToInt32(GetString(key));

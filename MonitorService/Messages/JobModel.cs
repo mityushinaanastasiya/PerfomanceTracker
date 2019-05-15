@@ -2,7 +2,7 @@
 
 namespace Messages
 {
-    public class Job
+    public class JobModel
     { 
         public int ExtensionServiceJobsId { get; set; }
         public string ExtensionServiceName { get; set; }

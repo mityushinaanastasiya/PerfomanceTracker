@@ -18,12 +18,12 @@ namespace WebApplication
             var action = new AddMetricsAction(dbContext, metricsModel.MachineName, metricsModel.TimeStamp, metricsModel.Data);
             await action.Do();
         }
-        public async Task AddJobs(List<Messages.Job> jobs)
+        public async Task AddJobs(List<Messages.JobModel> jobs)
         {
             var action = new AddJobsAction(dbContext, jobs);
             await action.Do();
         }
-        public async Task AddLogs (Messages.Log logs)
+        public async Task AddLogs (Messages.LogModel logs)
         {
             var action = new AddLogsAction(dbContext, logs.NameOfLogSource, logs.Data);
             await action.Do();

@@ -8,8 +8,8 @@ namespace WebApplication.Actions
 {
     public class AddJobsAction : Action
     {
-        List<Messages.Job> jobs;
-        public AddJobsAction(WallsMonitorDbContext dbContext, List<Messages.Job> jobs) : base(dbContext)
+        List<Messages.JobModel> jobs;
+        public AddJobsAction(WallsMonitorDbContext dbContext, List<Messages.JobModel> jobs) : base(dbContext)
         {
             this.dbContext = dbContext;
             this.jobs = jobs;
