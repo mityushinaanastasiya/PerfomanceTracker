@@ -22,15 +22,25 @@ namespace MonitorService
         {
             this.host = host;
         }
-
-        public async Task Send <T> (string url, T model)
+        public async Task SendMetrics ( Messages.MetricsModel model)
+        {
+            await SendMessages("/api/metrics", model);
+        }
+        public async Task SendJobs(List<Messages.JobModel> model)
+        {
+            await SendMessages("/api/jobs", model);
+        }
+        public async Task SendLogs(Messages.LogModel model)
+        {
+            await SendMessages("/api/logs", model);
+        }
+        private async Task SendMessages<T>(string url, T model)
         {
             string body = JsonConvert.SerializeObject(model);
             var content = new StringContent(body, Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await httpClient.PostAsync($"{this.host}{url}", content);
             await this.CheckResponce(responseMessage);
         }
-
         private async Task CheckResponce(HttpResponseMessage responseMessage)
         {
             if (responseMessage.IsSuccessStatusCode == false)

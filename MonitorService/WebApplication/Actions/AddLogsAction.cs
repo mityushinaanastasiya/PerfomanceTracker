@@ -13,7 +13,6 @@ namespace WebApplication.Actions
         List<KeyValuePair<DateTime, string>> data;
         public AddLogsAction(WallsMonitorDbContext dbContext, string nameOfLogSource, List<KeyValuePair<DateTime, string>> data) : base(dbContext)
         {
-            this.dbContext = dbContext;
             this.nameOfLogSource = nameOfLogSource;
             this.data = data;
         }

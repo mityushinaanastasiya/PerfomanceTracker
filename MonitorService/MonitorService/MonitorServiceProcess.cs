@@ -27,36 +27,36 @@ namespace MonitorService
             sentMessages = new SentMessages(metricServiceConfiguration.ServerURL);
         }
 
-        public void MonitorProcess()
+        public void Run ()
         {
-            tasks.Add(Task.Run(() => this.SentMetrics()));
+            tasks.Add(Task.Run(() => this.WatchMetrics()));
             //tasks.Add(Task.Run(() => this.GetLastLogOnSceduller()));
             //if (monitorServiceRole == MonitorServiceRole.Primary) tasks.Add(Task.Run(() => this.GetLastJobsOnSceduller()));
             Task.WaitAll(tasks.ToArray());
         }
 
-        public async Task SentMetrics()
+        public async Task WatchMetrics()
         {
             MetriсsProvider MetriksProvider = new MetriсsProvider();
             while (true)
             {
                 MetricsModel metricsModel = new MetricsModel(MetriksProvider.GetMetrics(), metricServiceConfiguration.MachineName, DateTime.Now);
-                await sentMessages.Send<Messages.MetricsModel>("/api/metrics", metricsModel);
+                await sentMessages.SendMetrics(metricsModel);
                 Thread.Sleep(metricServiceConfiguration.MetricInterval); 
             }
         }
 
-        public async Task GetLastJobsOnSceduller()
+        public async Task WatchJobs()
         {
             JobsCollector jobsCollector = new JobsCollector(metricServiceConfiguration.WallsConnectionString, metricServiceConfiguration.WallsProviderName);
             while (true)
             {
-                await sentMessages.Send<List<Messages.JobModel>>("/api/jobs", jobsCollector.GetLastJobs());
+                await sentMessages.SendJobs(jobsCollector.GetLastJobs());
                 Thread.Sleep(metricServiceConfiguration.JobsInterval);
             }
         }
 
-        public async Task GetLastLogOnSceduller()
+        public async Task WatchLogs()
         {
             Parallel.ForEach(metricServiceConfiguration.LogSources, async (sourse) =>
             {
@@ -64,7 +64,7 @@ namespace MonitorService
                 while (true)
                 {
                     LogModel log = new LogModel(sourse.Key, logCollector.GetLastRows());
-                    await sentMessages.Send<Messages.LogModel>("/api/logs", log);
+                    await sentMessages.SendLogs(log);
                     Thread.Sleep(metricServiceConfiguration.LogsInterval);
                 }
             });

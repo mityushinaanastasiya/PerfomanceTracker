@@ -11,7 +11,6 @@ namespace WebApplication.Actions
         List<Messages.JobModel> jobs;
         public AddJobsAction(WallsMonitorDbContext dbContext, List<Messages.JobModel> jobs) : base(dbContext)
         {
-            this.dbContext = dbContext;
             this.jobs = jobs;
         }
 
