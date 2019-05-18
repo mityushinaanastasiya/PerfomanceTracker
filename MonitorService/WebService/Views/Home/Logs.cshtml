@@ -1,0 +1,56 @@
+﻿@using WebService.DataAccess.Models
+@model List<Log>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Logs</title>
+</head>
+<body>
+    <h3>Logs</h3>
+    <hr width="30%" align="left" />
+    <br />
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1 bg-secondary text-white">Fatal</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1 bg-dark text-white">Error</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1 bg-secondary text-white">Warning</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1 bg-dark text-white">Info</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1 bg-secondary text-white">Debug</div>
+    </div>
+    <br />
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" id="inputfiltr" placeholder="Input parametr for searching of logs">
+            </div>
+            <div class="form-group col-md-2">
+                <input type="date" class="form-control" id="inputStartDate" placeholder="start">
+            </div>
+            <div class="form-group col-md-2">
+                <input type="date" class="form-control" id="inputEndDate" placeholder="end">
+            </div>
+            <div class="form-group col-md-2">
+                <button type="submit" class="btn btn-secondary">Search</button>
+            </div>
+        </div>
+    </form>
+    
+    <div class="row">
+        @foreach (Log log in Model)
+        {
+            <div class="col-1 border" >@log.TimeStamp</div>
+            <div class="col-1 border" >@log.ThreadId</div>
+            <div class="col-1 border">@log.LogMessage</div>
+            <div class="col-2 border">@log.MethodName</div>
+            <div class="col-6 border">@log.LogContent</div>
+            <div class="col-1 border">@log.MachineName</div>
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿@using WebService.DataAccess.Models
+@model List<Job>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Jobs</title>
+</head>
+<body>
+    <h3>Jobs</h3>
+    <hr width="30%" align="left" />
+    <br />
+    <div class="row">
+        @foreach (var job in Model)
+        {
+            <div class="col-1 border">@job.ExtensionServiceJobsId</div>
+            <div class="col-1 border">@job.ExtensionServiceName</div>
+            <div class="col-1 border">@job.ExtensionType</div>
+            <div class="col-1 border">@job.LibraryName</div>
+            <div class="col-1 border">@job.JobType</div>
+            <div class="col-1 border">@job.JobState</div>
+            <div class="col-1 border">@job.FinalStatus</div>
+            <div class="col-1 border">@job.Retries</div>
+            <div class="col-1 border">@job.QueueTime</div>
+            <div class="col-1 border">@job.StateLastChangedTime</div>
+            <div class="col-1 border">@job.StartTime</div>
+            <div class="col-1 border">@job.EndTime</div>
+            <div class="col-1 border">@job.Messages</div>
+            <div class="col-1 border">@job.OperationId</div>
+        }
+    </div>
+</body>
+</html>

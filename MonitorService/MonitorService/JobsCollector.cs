@@ -28,10 +28,6 @@ namespace MonitorService
                 .WHERE($"QueueTime > '{currentDate.ToString("MM/dd/yyyy hh:mm:ss.fff tt")}' and JobState = 'FINISHED'");
             List<JobModel> lastJobs = db.Map<JobModel>(query).ToList();
             if (lastJobs.Any()) currentDate = lastJobs.Max(j => j.QueueTime);
-            foreach (var jb in lastJobs)
-            {
-                Console.WriteLine(jb);
-            }
             return lastJobs;
         }
 

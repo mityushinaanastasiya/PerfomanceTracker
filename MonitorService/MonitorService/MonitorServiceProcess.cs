@@ -63,7 +63,7 @@ namespace MonitorService
                 LogCollector logCollector = new LogCollector(sourse.Value);
                 while (true)
                 {
-                    LogModel log = new LogModel(sourse.Key, logCollector.GetLastRows());
+                    LogModel log = new LogModel(sourse.Key, metricServiceConfiguration.MachineName, logCollector.GetLastRows());
                     await sentMessages.SendLogs(log);
                     Thread.Sleep(metricServiceConfiguration.LogsInterval);
                 }
