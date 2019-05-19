@@ -51,6 +51,12 @@ namespace WebService
             }
             return lg;
         }
+
+        public List<Job> GetJobs()
+        {
+            var action = new GetJobsAction(dbContext);
+            return action.Get();
+        }
     }
 }
 

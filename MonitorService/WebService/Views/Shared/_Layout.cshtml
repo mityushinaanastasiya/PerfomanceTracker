@@ -1,9 +1,10 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebService</title>
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet" />
+    <title>@ViewData["Title"] WebService</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -29,24 +30,31 @@
             </div>
         </nav>
     </header>
-    <div style="width: 15%; position: absolute; margin-left: 5%;">
-        <nav class="nav flex-column">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Main</a>
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Metrics">Metrics</a>
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logs">Logs</a>
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Jobs">Jobs</a>
-        </nav>
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="span2 " style="margin: 1%">
+                <nav class="nav flex-column">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><h5>Main</h5></a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Metrics"><h5>Metrics</h5></a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logs"><h5>Logs</h5></a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Jobs"><h5>Jobs</h5></a>
+                </nav>
+            </div>
+            <div >
+                <div class="container">
+                    <partial name="_CookieConsentPartial" />
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="container" style="position: relative; left: 5%;">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - WebService - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - WebService - Walls
         </div>
     </footer>
 

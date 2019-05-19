@@ -2,20 +2,14 @@
 @model List<Log>
 <!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Logs</title>
-</head>
-<body>
     <h3>Logs</h3>
     <hr width="30%" align="left" />
     <br />
     <div class="row">
         <div class="col-md-1"></div>
-        <div class="col-md-1 bg-secondary text-white">Fatal</div>
+        <div class="col-md-1 bg-secondary text-white" >Fatal</div>
         <div class="col-md-1"></div>
-        <div class="col-md-1 bg-dark text-white">Error</div>
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link text-white bg-dark col-md-1 rounded">Error</a>
         <div class="col-md-1"></div>
         <div class="col-md-1 bg-secondary text-white">Warning</div>
         <div class="col-md-1"></div>
@@ -52,5 +46,3 @@
             <div class="col-1 border">@log.MachineName</div>
         }
     </div>
-</body>
-</html>

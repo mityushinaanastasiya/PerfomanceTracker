@@ -36,7 +36,8 @@ namespace WebService.Controllers
 
         public IActionResult Jobs()
         {
-            return View();
+            List<Job> jobList = monitorService.GetJobs();
+            return View(jobList);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

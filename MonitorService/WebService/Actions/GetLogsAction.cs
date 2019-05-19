@@ -9,7 +9,6 @@ namespace WebService.Actions
 {
     public class GetLogsAction : Action
     {
-        MonitorService monitorService;
         public enum LogType { Total, Error, Warning, Info, Debug }
         public GetLogsAction(WallsMonitorDbContext dbContext) : base(dbContext)
         {

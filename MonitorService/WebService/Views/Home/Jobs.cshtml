@@ -1,34 +1,43 @@
 ﻿@using WebService.DataAccess.Models
 @model List<Job>
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Jobs</title>
-</head>
-<body>
-    <h3>Jobs</h3>
-    <hr width="30%" align="left" />
-    <br />
-    <div class="row">
-        @foreach (var job in Model)
-        {
-            <div class="col-1 border">@job.ExtensionServiceJobsId</div>
-            <div class="col-1 border">@job.ExtensionServiceName</div>
-            <div class="col-1 border">@job.ExtensionType</div>
-            <div class="col-1 border">@job.LibraryName</div>
-            <div class="col-1 border">@job.JobType</div>
-            <div class="col-1 border">@job.JobState</div>
-            <div class="col-1 border">@job.FinalStatus</div>
-            <div class="col-1 border">@job.Retries</div>
-            <div class="col-1 border">@job.QueueTime</div>
-            <div class="col-1 border">@job.StateLastChangedTime</div>
-            <div class="col-1 border">@job.StartTime</div>
-            <div class="col-1 border">@job.EndTime</div>
-            <div class="col-1 border">@job.Messages</div>
-            <div class="col-1 border">@job.OperationId</div>
-        }
-    </div>
-</body>
-</html>
+<h3>Jobs</h3>
+<hr width="30%" align="left" />
+<br />
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark text-white">
+            <tr>
+                <th>Extension Service Name</th>
+                <th>Extension Type</th>
+                <th>Library Name</th>
+                <th>Job State</th>
+                <th>Final Status</th>
+                <th>Queue Time</th>
+                <th>Messages</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var job in Model)
+            {
+                <tr>
+                        <th>@job.ExtensionServiceName</th>
+                        <th>@job.ExtensionType</th>
+                        <th>@job.LibraryName</th>
+                        <th>@job.JobState</th>
+                        <th>@job.FinalStatus</th>
+                        <th>@job.QueueTime</th>
+                        <th>@job.Messages</th>
+                        <th><a asp-area="" asp-controller="Jobs" asp-action="Index" class="text-dark">See more</a></th>
+                    </tr>
+                }
+
+            </tbody>
+    </table>
+
+
+    
+
+
+
