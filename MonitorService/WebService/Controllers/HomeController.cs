@@ -20,13 +20,12 @@ namespace WebService.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return View(monitorService.GetMachines());
         }
 
         public IActionResult Logs()
         {
-            List<Log> logsList = monitorService.GetLogs();
-            return View(logsList);
+            return View(monitorService.GetLogs());
         }
 
         public IActionResult Metrics()
@@ -36,8 +35,7 @@ namespace WebService.Controllers
 
         public IActionResult Jobs()
         {
-            List<Job> jobList = monitorService.GetJobs();
-            return View(jobList);
+            return View(monitorService.GetJobs());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

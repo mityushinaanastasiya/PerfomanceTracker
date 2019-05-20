@@ -1,15 +1,27 @@
-﻿
+﻿@model List<Machine>
 
-<!DOCTYPE html>
+<h3>Main</h3>
+<hr width="30%" align="left" />
+<br />
+<div class="container-fluid">
+    <div class="row">
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Jobs</title>
-</head>
-<body>
-    <h3>Main</h3>
-    <hr width="30%" align="left" />
-    <br />
-</body>
-</html>
+        @foreach (var machine in Model)
+        {
+        <div class="col col-sm-4" style="margin:1%">
+            <div>
+                <h6>@machine.Name</h6>
+            </div >
+            <div class="card">
+                <div class="card-body">
+
+                </div>
+            </div>
+            <canvas id=" = ">
+
+            </canvas>
+        </div>
+                }
+                
+        </div>
+</div>

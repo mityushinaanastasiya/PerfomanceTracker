@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebService.DataAccess.Models
 {
-    public class MetricsModel
+    public class Metrics
     {
         public int Id { get; set; }
         public string MachineName { get; set; }

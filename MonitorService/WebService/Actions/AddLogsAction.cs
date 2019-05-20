@@ -10,11 +10,12 @@ namespace WebService.Actions
 {
     public class AddLogsAction : Action
     {
-        string nameOfLogSource;
+        string logSource, machineName;
         List<KeyValuePair<DateTime, string>> data;
-        public AddLogsAction(WallsMonitorDbContext dbContext, string nameOfLogSource, List<KeyValuePair<DateTime, string>> data) : base(dbContext)
+        public AddLogsAction(WallsMonitorDbContext dbContext, string machineName, string logSource, List<KeyValuePair<DateTime, string>> data) : base(dbContext)
         {
-            this.nameOfLogSource = nameOfLogSource;
+            this.machineName = machineName;
+            this.logSource = logSource;
             this.data = data;
         }
 
@@ -25,7 +26,8 @@ namespace WebService.Actions
                 string[] logPart = obj.Value.Split(new char[] { '|' });
                 var log = new Log
                 {
-                    LogName = nameOfLogSource,
+                    LogSource = logSource,
+                    MachineName = machineName,
                     TimeStamp = obj.Key,
                     ThreadId = logPart[1].Trim(),
                     LogMessage = logPart[2].Trim(),

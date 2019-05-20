@@ -65,14 +65,12 @@ namespace MonitorService
                     if (reg.IsMatch(row))
                     {
                     lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
-                        Console.WriteLine(rowLog);
                     rowDate = Convert.ToDateTime(reg.Match(row).ToString().Replace(',', '.'));
                         rowLog = row;
                     }
                     else if (row != "") rowLog += '\n' + row;
                 }
             if (lastRows.Any()) lastRows.Remove(lastRows[0]);
-            Console.WriteLine(rowLog);
             lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
             line += rows.Count();
             return lastRows;

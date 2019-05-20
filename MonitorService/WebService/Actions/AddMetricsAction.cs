@@ -21,7 +21,7 @@ namespace WebService.Actions
         }
         public async Task Do()
         {
-            var metrics = new MetricsModel
+            var metrics = new Metrics
             {
                 MachineName = this.machineName,
                 TimeStamp = this.timeStamp,

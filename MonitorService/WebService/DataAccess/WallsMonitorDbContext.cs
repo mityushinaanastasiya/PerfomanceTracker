@@ -11,7 +11,7 @@ namespace WebService.DataAccess
     {
         public DbSet<Log> Logs { get; set; }
         public DbSet<Job> Jobs { get; set; }
-        public DbSet<MetricsModel> MetricsModels { get; set; }
+        public DbSet<Metrics> Metrics { get; set; }
         public WallsMonitorDbContext(DbContextOptions<WallsMonitorDbContext> options) : base(options)
         {
             Database.EnsureCreated();

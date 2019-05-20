@@ -8,7 +8,6 @@ namespace WebService.DataAccess.Models
     public class Log
     {
         public int Id { get; set; }
-        public string LogName { get; set; }
         public DateTime TimeStamp { get; set; }
         public string ThreadId { get; set; }
         public string LogMessage { get; set; }
@@ -16,5 +15,6 @@ namespace WebService.DataAccess.Models
         public string MethodName { get; set; }
         public string LogContent { get; set; }
         public string MachineName { get; set; }
+        public string LogSource { get; set; }
     }
 }

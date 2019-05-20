@@ -29,9 +29,4 @@
     <ProjectReference Include="..\MonitorService\MonitorService.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="DataAccess\Models\" />
-  </ItemGroup>
-
 </Project>

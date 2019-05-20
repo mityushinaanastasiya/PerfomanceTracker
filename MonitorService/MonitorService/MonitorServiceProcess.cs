@@ -30,7 +30,7 @@ namespace MonitorService
         public void Run ()
         {
             //tasks.Add(Task.Run(() => this.WatchMetrics()));
-            //tasks.Add(Task.Run(() => this.WatchLogs()));
+            tasks.Add(Task.Run(() => this.WatchLogs()));
             //if (monitorServiceRole == MonitorServiceRole.Primary) tasks.Add(Task.Run(() => this.WatchJobs()));
             Task.WaitAll(tasks.ToArray());
         }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using WebService.Actions;
 using WebService.DataAccess;
 using WebService.DataAccess.Models;
+using WebService.Models;
 
 namespace WebService
 {
@@ -27,7 +28,7 @@ namespace WebService
         }
         public async Task AddLogs (Messages.LogModel logs)
         {
-            var action = new AddLogsAction(dbContext, logs.NameOfLogSource, logs.Data);
+            var action = new AddLogsAction(dbContext, logs.MachineName, logs.LogSource, logs.Data);
             await action.Do();
         }
         public List<Log> GetLogs(DateTime startTime, DateTime endTime)
@@ -47,7 +48,7 @@ namespace WebService
             List<Log> lg = new List<Log>();
             for (int i = 0; i<10; i++)
             {
-                lg.Add(new Log { ClassName = "Class Name", LogContent = "Log Content", LogMessage = "Log Message", LogName = "Log Name", MachineName = "Machine Name", MethodName = "Method Name", ThreadId = "ThreadId", TimeStamp = DateTime.Now });
+                lg.Add(new Log { ClassName = "Class Name", LogContent = "Log Content", LogMessage = "Log Message", LogSource = "Log Source", MachineName = "Machine Name", MethodName = "Method Name", ThreadId = "ThreadId", TimeStamp = DateTime.Now });
             }
             return lg;
         }
@@ -57,6 +58,12 @@ namespace WebService
             var action = new GetJobsAction(dbContext);
             return action.Get();
         }
+        public List<Machine> GetMachines()
+        {
+            var action = new GetMachineAction(dbContext);
+            return action.GetMachines();
+        }
+
     }
 }
 
