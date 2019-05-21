@@ -14,47 +14,57 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/highcharts/highcharts.js"></script>
+    <script src="~/lib/highcharts/highcharts-more.js"></script>
+    <script src="~/lib/highcharts/modules/exporting.js"></script>
+    <script src="~/lib/highcharts/modules/export-data.js"></script>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebService</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-auto">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebService</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
     <div class="container-fluid ">
         <div class="row">
-            <div class="span2 " style="margin: 1%">
+            <div class="col-auto" style="margin: 1%">
                 <nav class="nav flex-column">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><h5>Main</h5></a>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Metrics"><h5>Metrics</h5></a>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logs"><h5>Logs</h5></a>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Jobs"><h5>Jobs</h5></a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MetricsMain"><h5>Metrics</h5></a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="LogsMain"><h5>Logs</h5></a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="JobMain"><h5>Jobs</h5></a>
                 </nav>
             </div>
-            <div >
-                <div class="container">
-                    <partial name="_CookieConsentPartial" />
-                    <main role="main" class="pb-3">
-                        @RenderBody()
-                    </main>
-                </div>
+            <div class="col">
+                <partial name="_CookieConsentPartial" />
+                <main role="main">
+                    @RenderBody()
+                </main>
             </div>
         </div>
     </div>
-    
+
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - WebService - Walls
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col" style="margin-left:2%">
+                    &copy; 2019 - WebService - Walls
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -76,7 +86,7 @@
                 integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
         </script>
     </environment>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
 
     @RenderSection("Scripts", required: false)
 </body>

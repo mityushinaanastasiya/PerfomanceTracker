@@ -1,27 +1,23 @@
-﻿@model List<Machine>
+﻿@using WebService.ModelsForView;
+@model List<MachineMain>
 
 <h3>Main</h3>
 <hr width="30%" align="left" />
 <br />
-<div class="container-fluid">
-    <div class="row">
 
-        @foreach (var machine in Model)
-        {
-        <div class="col col-sm-4" style="margin:1%">
-            <div>
-                <h6>@machine.Name</h6>
-            </div >
-            <div class="card">
-                <div class="card-body">
-
+<div class="row">
+    @foreach (var machine in Model)
+    {
+        <div class="col col-sm-3">
+            <a asp-area="" asp-controller="Home" asp-action="Machine" asp-route-name="@machine.Name" class="nav-link text-white bg-secondary rounded">
+                <div>
+                    <h4>@machine.Name</h4>
+                    <h5>CPU: @machine.LastCPU %</h5>
+                    <h5>MEMORY: @machine.LastMemory %</h5>
+                    <h5>PHYSICAL DISK: @machine.LastPhysicalDisk %</h5>
                 </div>
-            </div>
-            <canvas id=" = ">
-
-            </canvas>
+            </a>
         </div>
-                }
-                
-        </div>
+    }
 </div>
+

@@ -71,8 +71,11 @@ namespace MonitorService
                     else if (row != "") rowLog += '\n' + row;
                 }
             if (lastRows.Any()) lastRows.Remove(lastRows[0]);
-            lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
-            line += rows.Count();
+            if (rowLog != "")
+            {
+                lastRows.Add(new KeyValuePair<DateTime, string>(rowDate, rowLog));
+                line += rows.Count();
+            }
             return lastRows;
         }
 

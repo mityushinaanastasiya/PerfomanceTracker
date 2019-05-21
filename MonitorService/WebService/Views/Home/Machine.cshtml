@@ -1,0 +1,209 @@
+﻿@using WebService.ModelsForView;
+@model Machine
+
+<h3>@Model.Name</h3>
+<hr width="30%" align="left" />
+<br />
+<h3>Metrics</h3>
+<hr width="30%" align="left" />
+
+<div class="row">
+    <div class="col">
+        <div class="row justify-content-around">
+            <div class="col-auto rounded">
+                <div id="chartCPU" class="chart" style="min-width: 450px; height: 400px; margin: 0 auto"></div>
+            </div>
+            <div class="col-auto rounded">
+                <div id="chartMemory" class="chart" style="min-width: 450px; height: 400px; margin: 0 auto"></div>
+            </div>
+            <div class=" col-auto rounded">
+                <div id="chartPhysicalDisc" class="chart" style="min-width: 450px; height: 400px; margin: 0 auto"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Logs</h3>
+<hr width="30%" align="left" />
+<div class="row">
+    <div class="col">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark text-white">
+                <tr>
+                    <th>Time Stamp</th>
+                    <th>Thread Id</th>
+                    <th>Log Message</th>
+                    <th>Method Name</th>
+                    <th>Log Content</th>
+                    <th>Machine Name</th>
+                    <th>Log Source</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var log in Model.Logs)
+                {
+                    <tr>
+                        <th>@log.TimeStamp</th>
+                        <th>@log.ThreadId</th>
+                        <th>@log.LogMessage</th>
+                        <th>@log.MethodName</th>
+                        <th>@log.LogContent</th>
+                        <th>@log.MachineName</th>
+                        <th>@log.LogSource</th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+        var dates = [@Html.Raw(string.Join(",", Model.Dates.Select(d=>$"'{d}'")))];
+        var cpu = [@Html.Raw(string.Join(",", Model.Processor))];
+        var memory= [@Html.Raw(string.Join(",", Model.Memory))];
+        var phd = [@Html.Raw(string.Join(",", Model.PhysicalDisk))];
+        Highcharts.chart('chartCPU', {
+            chart: {
+                type: 'areaspline'
+            },
+            title: {
+                text: 'CPU'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 150,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+            },
+            xAxis: {
+                categories: dates,
+                plotBands: [{ // visualize the weekend
+                    from: 4.5,
+                    to: 6.5,
+                    color: 'rgba(68, 170, 213, .2)'
+                }]
+            },
+            yAxis: {
+                title: {
+                    text: 'Persent'
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ' persents'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                areaspline: {
+                    fillOpacity: 0.5
+                }
+            },
+            series: [{
+                name: 'CPU',
+                data: cpu
+            }]
+        });
+
+        Highcharts.chart('chartMemory', {
+            chart: {
+                type: 'areaspline'
+            },
+            title: {
+                text: 'Memory'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 150,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+            },
+            xAxis: {
+                categories: dates,
+                plotBands: [{ // visualize the weekend
+                    from: 4.5,
+                    to: 6.5,
+                    color: 'rgba(68, 170, 213, .2)'
+                }]
+            },
+            yAxis: {
+                title: {
+                    text: 'Persent'
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ' persents'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                areaspline: {
+                    fillOpacity: 0.5
+                }
+            },
+            series: [{
+                name: 'Memory',
+                data: memory
+            }]
+        });
+
+        Highcharts.chart('chartPhysicalDisc', {
+            chart: {
+                type: 'areaspline'
+            },
+            title: {
+                text: 'Physical Disc'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 150,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+            },
+            xAxis: {
+                categories: dates,
+                plotBands: [{ // visualize the weekend
+                    from: 4.5,
+                    to: 6.5,
+                    color: 'rgba(68, 170, 213, .2)'
+                }]
+            },
+            yAxis: {
+                title: {
+                    text: 'Persent'
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ' persents'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                areaspline: {
+                    fillOpacity: 0.5
+                }
+            },
+            series: [{
+                name: 'Physical Disk',
+                data: phd
+            }]
+        });
+</script>
+}

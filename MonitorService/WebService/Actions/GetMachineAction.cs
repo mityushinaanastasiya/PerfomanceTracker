@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebService.DataAccess;
 using WebService.Models;
+using WebService.ModelsForView;
 
 namespace WebService.Actions
 {
@@ -13,16 +14,19 @@ namespace WebService.Actions
         {
 
         }
-        public List<Machine> GetMachines()
+        public List<MachineMain> GetMachines()
         {
             var machineList = dbContext.Metrics
                     .GroupBy(g => g.MachineName)
                     .Select(s => new { MachineName = s.Key });
-            List<Machine> machines = new List<Machine>();
+            List<MachineMain> machines = new List<MachineMain>();
             foreach (var m in machineList)
             {
-                Machine machine = new Machine();
+                MachineMain machine = new MachineMain();
                 machine.Name = m.MachineName;
+                machine.LastCPU = float.Parse(dbContext.Metrics.Last().Processor);
+                machine.LastMemory = float.Parse(dbContext.Metrics.Last().Memory);
+                machine.LastPhysicalDisk = float.Parse(dbContext.Metrics.Last().PhysicalDisk);
                 var logSourse = dbContext.Logs
                                         .Where(c => c.MachineName == machine.Name)
                                         .GroupBy(g=>g.LogSource)
@@ -31,8 +35,10 @@ namespace WebService.Actions
                 {
                     machine.LogsSource.Add(ls.LogSource);
                 }
+                machines.Add(machine);
             }
             return machines;
         }
+
     }
 }

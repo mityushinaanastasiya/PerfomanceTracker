@@ -21,23 +21,26 @@ namespace WebService.Actions
 
         public async Task Do()
         {
-            foreach (var obj in data)
+            if (data.Any())
             {
-                string[] logPart = obj.Value.Split(new char[] { '|' });
-                var log = new Log
+                foreach (var obj in data)
                 {
-                    LogSource = logSource,
-                    MachineName = machineName,
-                    TimeStamp = obj.Key,
-                    ThreadId = logPart[1].Trim(),
-                    LogMessage = logPart[2].Trim(),
-                    ClassName = logPart[3].Trim(),
-                    MethodName = logPart[4].Trim(),
-                    LogContent = logPart[5].Trim(),
-                };
-                dbContext.Add(log);
+                    string[] logPart = obj.Value.Split(new char[] { '|' });
+                    var log = new Log
+                    {
+                        LogSource = logSource,
+                        MachineName = machineName,
+                        TimeStamp = obj.Key,
+                        ThreadId = logPart[1].Trim(),
+                        LogMessage = logPart[2].Trim(),
+                        ClassName = logPart[3].Trim(),
+                        MethodName = logPart[4].Trim(),
+                        LogContent = logPart[5].Trim(),
+                    };
+                    dbContext.Add(log);
+                }
+                await dbContext.SaveChangesAsync();
             }
-            await dbContext.SaveChangesAsync();
         }
     }
 }

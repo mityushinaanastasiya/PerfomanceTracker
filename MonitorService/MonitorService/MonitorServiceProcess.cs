@@ -29,9 +29,9 @@ namespace MonitorService
 
         public void Run ()
         {
-            //tasks.Add(Task.Run(() => this.WatchMetrics()));
-            tasks.Add(Task.Run(() => this.WatchLogs()));
-            //if (monitorServiceRole == MonitorServiceRole.Primary) tasks.Add(Task.Run(() => this.WatchJobs()));
+            tasks.Add(Task.Run(() => this.WatchMetrics()));
+            //tasks.Add(Task.Run(() => this.WatchLogs()));
+            if (monitorServiceRole == MonitorServiceRole.Primary) tasks.Add(Task.Run(() => this.WatchJobs()));
             Task.WaitAll(tasks.ToArray());
         }
 
@@ -58,16 +58,17 @@ namespace MonitorService
 
         public async Task WatchLogs()
         {
-            Parallel.ForEach(metricServiceConfiguration.LogSources, async (sourse) =>
+            Dictionary<string, LogCollector> collectors = metricServiceConfiguration.LogSources.ToDictionary(pair => pair.Key, pair => new LogCollector(pair.Value));
+            while (true)
             {
-                LogCollector logCollector = new LogCollector(sourse.Value);
-                while (true)
+
+                foreach (var lg in metricServiceConfiguration.LogSources)
                 {
-                    LogModel log = new LogModel(sourse.Key, metricServiceConfiguration.MachineName, logCollector.GetLastRows());
+                    LogModel log = new LogModel(lg.Key, metricServiceConfiguration.MachineName, collectors[lg.Key].GetLastRows());
                     await sentMessages.SendLogs(log);
                     Thread.Sleep(metricServiceConfiguration.LogsInterval);
                 }
-            });
+            }
         }
     }
 }

@@ -1,0 +1,177 @@
+﻿@using WebService.ModelsForView;
+@model List<MetricsMain>
+
+<h3>Metrics</h3>
+<hr width="30%" align="left" />
+<br />
+
+@foreach (var mm in Model)
+{
+    <div>
+        <h3>@mm.MachineName</h3>
+        <hr width="30%" align="left" />
+        <div class="row justify-content-around">
+            <div class="col-auto rounded">
+                <div id="chartCPU_@mm.MachineName" class="chart" style="min-width: 450px; height: 400px; margin: 0 auto"></div>
+            </div>
+            <div class="col-auto rounded">
+                <div id="chartMemory_@mm.MachineName" class="chart" style="min-width: 450px; height: 400px; margin: 0 auto"></div>
+            </div>
+            <div class=" col-auto rounded">
+                <div id="chartPhysicalDisc_@mm.MachineName" class="chart" style="min-width: 450px; height: 400px; margin: 0 auto"></div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script>
+        var dates@(mm.MachineName) = [@Html.Raw(string.Join(",", mm.Dates.Select(d=>$"'{d}'")))];
+        var cpu@(mm.MachineName) = [@Html.Raw(string.Join(",", mm.Processor))];
+        var memory@(mm.MachineName) = [@Html.Raw(string.Join(",", mm.Memory))];
+        var phd@(mm.MachineName) = [@Html.Raw(string.Join(",", mm.PhysicalDisk))];
+        Highcharts.chart('chartCPU_@mm.MachineName', {
+            chart: {
+                type: 'areaspline'
+            },
+            title: {
+                text: 'CPU'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 150,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+            },
+            xAxis: {
+                categories: dates@(mm.MachineName),
+                plotBands: [{ // visualize the weekend
+                    from: 4.5,
+                    to: 6.5,
+                    color: 'rgba(68, 170, 213, .2)'
+                }]
+            },
+            yAxis: {
+                title: {
+                    text: 'Persent'
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ' persents'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                areaspline: {
+                    fillOpacity: 0.5
+                }
+            },
+            series: [{
+                name: 'CPU',
+                data: cpu@(mm.MachineName)
+            }]
+        });
+
+        Highcharts.chart('chartMemory_@mm.MachineName', {
+            chart: {
+                type: 'areaspline'
+            },
+            title: {
+                text: 'Memory'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 150,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+            },
+            xAxis: {
+                categories: dates@(mm.MachineName),
+                plotBands: [{ // visualize the weekend
+                    from: 4.5,
+                    to: 6.5,
+                    color: 'rgba(68, 170, 213, .2)'
+                }]
+            },
+            yAxis: {
+                title: {
+                    text: 'Persent'
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ' persents'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                areaspline: {
+                    fillOpacity: 0.5
+                }
+            },
+            series: [{
+                name: 'Memory',
+                data: memory@(mm.MachineName)
+            }]
+        });
+
+        Highcharts.chart('chartPhysicalDisc_@mm.MachineName', {
+            chart: {
+                type: 'areaspline'
+            },
+            title: {
+                text: 'Physical Disc'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 150,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+            },
+            xAxis: {
+                categories: dates@(mm.MachineName),
+                plotBands: [{ // visualize the weekend
+                    from: 4.5,
+                    to: 6.5,
+                    color: 'rgba(68, 170, 213, .2)'
+                }]
+            },
+            yAxis: {
+                title: {
+                    text: 'Persent'
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ' persents'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                areaspline: {
+                    fillOpacity: 0.5
+                }
+            },
+            series: [{
+                name: 'Physical Disk',
+                data: phd@(mm.MachineName)
+            }]
+        });
+    </script>
+}
+
