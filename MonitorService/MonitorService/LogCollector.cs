@@ -53,7 +53,7 @@ namespace MonitorService
         /// </summary>
         /// <param name="currentPath">Путь к файлу</param>
         /// <returns></returns>
-        List<KeyValuePair<DateTime, string>> returnRows (string currentPath)
+        List<KeyValuePair<DateTime, string>> ReturnRows (string currentPath)
         {
             Regex reg = new  Regex(@"\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2},\d{3}");
             DateTime rowDate = DateTime.Now;

@@ -90,12 +90,27 @@ namespace WebService
             }
             return metrics;
         }
+        //public List<MetricsMachineMain> GetMetricsMain(DateTime startDate, DateTime endDate)
+        //{
+        //    List<MetricsMachineMain> metrics = new List<MetricsMachineMain>();
+        //    var machines = this.GetMachines();
+        //    foreach (var machine in machines)
+        //    {
+        //        MetricsMachineMain oneMetrics = new MetricsMachineMain();
+        //        oneMetrics.MachineName = machine.Name;
+        //        oneMetrics.Memory = this.GetMemory(oneMetrics.MachineName, startDate, endDate);
+        //        oneMetrics.Processor = this.GetProcessor(oneMetrics.MachineName, startDate, endDate);
+        //        oneMetrics.PhysicalDisk = this.GetPhysicalDisk(oneMetrics.MachineName, startDate, endDate);
+        //        oneMetrics.Dates = this.GetDates(oneMetrics.MachineName);
+        //        metrics.Add(oneMetrics);
+        //    }
+        //    return metrics;
+        //}
         public List<Job> GetJobs()
         {
             var action = new GetJobsAction(dbContext);
             return action.Get();
         }
-
         public List<Job> GetJobs(String searchWord, DateTime startTime, DateTime endTime)
         {
             var action = new GetJobsAction(dbContext);
@@ -116,7 +131,6 @@ namespace WebService
             var action = new GetLogsAction(dbContext);
             return action.GetCountsOfLogs();
         }
-
         public List<float> GetProcessor(string machineName)
         {
             var action = new GetMetricsAction(dbContext);
@@ -136,6 +150,27 @@ namespace WebService
         {
             var action = new GetMetricsAction(dbContext);
             return action.GetDates(machineName);
+        }
+
+        public List<float> GetProcessor(string machineName, DateTime startDate, DateTime endDate)
+        {
+            var action = new GetMetricsAction(dbContext);
+            return action.GetProcessor(machineName, startDate, endDate);
+        }
+        public List<float> GetMemory(string machineName, DateTime startDate, DateTime endDate)
+        {
+            var action = new GetMetricsAction(dbContext);
+            return action.GetMemory(machineName, startDate, endDate);
+        }
+        public List<float> GetPhysicalDisk(string machineName, DateTime startDate, DateTime endDate)
+        {
+            var action = new GetMetricsAction(dbContext);
+            return action.GetPhysicalDisk(machineName, startDate, endDate);
+        }
+        public List<DateTime> GetDates(string machineName, DateTime startDate, DateTime endDate)
+        {
+            var action = new GetMetricsAction(dbContext);
+            return action.GetDates(machineName, startDate, endDate);
         }
     }
 }

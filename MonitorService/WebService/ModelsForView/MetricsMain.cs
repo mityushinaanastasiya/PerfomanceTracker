@@ -12,20 +12,7 @@ namespace WebService.ModelsForView
         public List<float> Processor { get; set; }
         public List<float> Memory { get; set; }
         public List<float> PhysicalDisk { get; set; }
-
-
-        //public MetricsMain()
-        //{
-        //    Dates = new List<DateTime>
-        //    {
-        //        DateTime.Now,
-        //        DateTime.Now.AddMinutes(1),
-        //        DateTime.Now.AddMinutes(2),
-        //        DateTime.Now.AddMinutes(3),
-        //        DateTime.Now.AddMinutes(4),
-        //        DateTime.Now.AddMinutes(5),
-        //    };
-        //}
-       
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

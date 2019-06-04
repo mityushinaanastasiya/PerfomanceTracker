@@ -1,6 +1,7 @@
 ﻿@using WebService.ModelsForView;
 @model List<MetricsMain>
 
+
 <h3>Metrics</h3>
 <hr width="30%" align="left" />
 <br />
@@ -8,8 +9,25 @@
 @foreach (var mm in Model)
 {
     <div>
-        <h3>@mm.MachineName</h3>
-        <hr width="30%" align="left" />
+        <div class="row justify-content-between">
+            <div class="col">
+                <h3>@mm.MachineName</h3>
+                <hr width="30%" align="left" />
+            </div>
+            <div class="col-auto">
+                <form asp-controller="HomeController" asp-action="MetricsMain" method="get" class="form-row" style="margin-top:2%">
+                    <div class="form-group col-sm-4">
+                        <input type="datetime-local" asp-for="@mm.StartDate" class="form-control" id="inputStartDate" placeholder="start">
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <input type="datetime-local" asp-for="@mm.EndDate" class="form-control" id="inputEndDate" placeholder="end">
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <button type="submit" class="btn btn-secondary">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="row justify-content-around">
             <div class="col-auto rounded">
                 <div id="chartCPU_@mm.MachineName" class="chart" style="min-width: 450px; height: 400px; margin: 0 auto"></div>
@@ -25,6 +43,7 @@
     </div>
     
     <script>
+        
         var dates@(mm.MachineName) = [@Html.Raw(string.Join(",", mm.Dates.Select(d=>$"'{d}'")))];
         var cpu@(mm.MachineName) = [@Html.Raw(string.Join(",", mm.Processor))];
         var memory@(mm.MachineName) = [@Html.Raw(string.Join(",", mm.Memory))];
@@ -73,7 +92,7 @@
             },
             series: [{
                 name: 'CPU',
-                data: cpu@(mm.MachineName)
+                data: cpu@(mm.MachineName),
             }]
         });
 

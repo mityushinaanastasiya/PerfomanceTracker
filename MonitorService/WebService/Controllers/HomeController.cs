@@ -44,9 +44,24 @@ namespace WebService.Controllers
             return View(logMain);
         }
 
-        public IActionResult MetricsMain()
+        public IActionResult MetricsMain(string machinaName, DateTime startTime, DateTime endTime)
         {
-            return View(monitorService.GetMetricsMain());
+            var metrics = monitorService.GetMetricsMain();
+
+            //if (metricsMain.StartDate > Convert.ToDateTime("01.01.0002") && metricsMain.EndDate > Convert.ToDateTime("01.01.0002"))
+            //{
+            //    metrics.Where(c => c.MachineName == metricsMain.MachineName).First().Memory = monitorService.GetMemory(metricsMain.MachineName, metricsMain.StartDate, metricsMain.EndDate);
+            //}
+            //foreach (var machine in metricsMain)
+            //{
+            //    if (machine.StartDate > Convert.ToDateTime("01.01.0002") && machine.EndDate > Convert.ToDateTime("01.01.0002"))
+            //    {
+            //        machine.Memory = monitorService.GetMemory(machine.MachineName, machine.StartDate, machine.EndDate);
+            //        machine.Processor = monitorService.GetProcessor(machine.MachineName, machine.StartDate, machine.EndDate);
+            //        machine.PhysicalDisk = monitorService.GetPhysicalDisk(machine.MachineName, machine.StartDate, machine.EndDate);
+            //    }
+            //}
+            return View(metrics);
         }
         public IActionResult Logs(Type type)
         {

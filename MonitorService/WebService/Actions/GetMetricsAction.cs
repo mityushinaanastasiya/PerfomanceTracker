@@ -17,7 +17,7 @@ namespace WebService.Actions
                     .OrderBy(p => p.TimeStamp)
                     .Where(s => s.MachineName == machineName)
                     .Select(d => float.Parse(d.Processor) )
-                    .Take(10)
+                    .Skip(Math.Max(0, dbContext.Metrics.Count() - 20))
                     .ToList();
         }
         public List<float> GetMemory(string machineName)
@@ -26,7 +26,7 @@ namespace WebService.Actions
                     .OrderBy(p => p.TimeStamp)
                     .Where(s => s.MachineName == machineName)
                     .Select(d => float.Parse(d.Memory))
-                    .Take(10)
+                    .Skip(Math.Max(0, dbContext.Metrics.Count() - 20))
                     .ToList();
         }
         public List<float> GetPhysicalDisk(string machineName)
@@ -35,18 +35,56 @@ namespace WebService.Actions
                     .OrderBy(p => p.TimeStamp)
                     .Where(s => s.MachineName == machineName)
                     .Select(d => float.Parse(d.PhysicalDisk))
-                    .Take(10)
+                    .Skip(Math.Max(0, dbContext.Metrics.Count() - 20))
                     .ToList();
 
         }
-
         public List<DateTime> GetDates(string machineName)
         {
             return dbContext.Metrics
                     .OrderBy(p => p.TimeStamp)
                     .Where(s => s.MachineName == machineName)
                     .Select(d => d.TimeStamp)
-                    .Take(10)
+                    .Skip(Math.Max(0, dbContext.Metrics.Count() - 20))
+                    .ToList();
+
+        }
+
+        public List<float> GetProcessor(string machineName, DateTime startDate, DateTime endDate)
+        {
+            return dbContext.Metrics
+                    .OrderBy(p => p.TimeStamp)
+                    .Where(s => s.TimeStamp>= startDate && s.TimeStamp <= endDate && s.MachineName == machineName)
+                    .Select(d => float.Parse(d.Processor))
+                    .Skip(Math.Max(0, dbContext.Metrics.Count() - 20))
+                    .ToList();
+        }
+        public List<float> GetMemory(string machineName, DateTime startDate, DateTime endDate)
+        {
+            return dbContext.Metrics
+                    .OrderBy(p => p.TimeStamp)
+                    .Where(s => s.TimeStamp >= startDate && s.TimeStamp <= endDate && s.MachineName == machineName)
+                    .Select(d => float.Parse(d.Memory))
+                    .Skip(Math.Max(0, dbContext.Metrics.Count() - 20))
+                    .ToList();
+        }
+        public List<float> GetPhysicalDisk(string machineName, DateTime startDate, DateTime endDate)
+        {
+            return dbContext.Metrics
+                    .OrderBy(p => p.TimeStamp)
+                    .Where(s => s.TimeStamp >= startDate && s.TimeStamp <= endDate && s.MachineName == machineName)
+                    .Select(d => float.Parse(d.PhysicalDisk))
+                    .Skip(Math.Max(0, dbContext.Metrics.Count() - 20))
+                    .ToList();
+
+        }
+        public List<DateTime> GetDates(string machineName, DateTime startDate, DateTime endDate)
+        {
+            return dbContext.Metrics
+                    .OrderBy(p => p.TimeStamp)
+                    .Where(s => s.TimeStamp >= startDate && s.TimeStamp <= endDate && s.MachineName == machineName)
+                    .Select(d => d.TimeStamp)
+                    .Skip(Math.Max(0, dbContext.Metrics.Count() - 20))
                     .ToList();
 
         }

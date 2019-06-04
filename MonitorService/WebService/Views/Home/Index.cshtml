@@ -8,10 +8,10 @@
 <div class="row">
     @foreach (var machine in Model)
     {
-        <div class="col col-sm-3">
-            <a asp-area="" asp-controller="Home" asp-action="Machine" asp-route-name="@machine.Name" class="nav-link text-white bg-secondary rounded">
+        <div class="col col-auto">
+            <a asp-area="" asp-controller="Home" asp-action="Machine" asp-route-name="@machine.Name" class="nav-link text-dark rounded" style="background:#94c8f7 ">
                 <div>
-                    <h4>@machine.Name</h4>
+                    <h3>@machine.Name</h3>
                     <h5>CPU: @machine.LastCPU %</h5>
                     <h5>MEMORY: @machine.LastMemory %</h5>
                     <h5>PHYSICAL DISK: @machine.LastPhysicalDisk %</h5>

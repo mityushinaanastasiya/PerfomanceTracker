@@ -16,7 +16,10 @@ namespace WebService.Actions
         }
         public List<Log> Get()
         {
-            return dbContext.Logs.Take(20).ToList();
+            return dbContext.Logs
+                .Skip(Math.Max(0, dbContext.Logs.Count () - 20))
+                .OrderByDescending(o=> o.TimeStamp)
+                .ToList();
         }
         public  List<Log> Get(DateTime startTime, DateTime endTime)
         { 
@@ -24,7 +27,8 @@ namespace WebService.Actions
         }
         public List<Log> Get(string search)
         {
-            return dbContext.Logs.Where(d => d.LogContent.Contains(search) || d.LogMessage.Contains(search) || d.LogSource.Contains(search) || d.MachineName.Contains(search) || d.MethodName.Contains(search) || d.ThreadId.Contains(search)).ToList();
+            return dbContext.Logs
+                .Where(d => d.LogContent.Contains(search) || d.LogMessage.Contains(search) || d.LogSource.Contains(search) || d.MachineName.Contains(search) || d.MethodName.Contains(search) || d.ThreadId.Contains(search)).ToList();
         }
         public List<Log> Get(string search, DateTime startTime, DateTime endTime)
         {
@@ -34,7 +38,10 @@ namespace WebService.Actions
         }
         public List<Log> Get (Type type)
         {
-            return dbContext.Logs.Where(d => d.LogMessage == type.ToString()).ToList();
+            return dbContext.Logs
+                .Where(d => d.LogMessage == type.ToString())
+                .OrderByDescending(o => o.TimeStamp)
+                .ToList();
         }
 
         public Dictionary<string, int> GetCountsOfLogs()
